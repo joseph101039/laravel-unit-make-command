@@ -1,0 +1,1 @@
+Route::post('{{Uri}}', '{{Name}}\Controller@store');

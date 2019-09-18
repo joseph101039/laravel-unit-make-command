@@ -1,0 +1,31 @@
+<?php
+
+namespace {{SearchNamespace}};
+
+use {{SearchDefaultNamespace}}\BaseSearchService;
+use {{EntityNamespace}}\{{EntityClass}};
+
+
+class {{SearchClass}} extends BaseSearchService
+{
+    public static function apply($filters, $type = 'page')
+    {
+        // filter the unset columns
+
+        foreach ($filters as $key => $val) {
+            if (empty($val) || $val == '' || $val == null || $val == 'all' || $val == '~') {
+                unset($filters[$key]);
+            }
+        }
+
+        $query = BaseSearchService::applyDecoratorsFromRequest($filters, (new {{EntityClass}})->newQuery(), '{{FilterFolder}}', __NAMESPACE__);
+
+        if ($type == 'page') {
+
+            return BaseSearchService::getResultsWithPaginate($query, $filters['per_page']);
+        } else {
+
+            return BaseSearchService::getResultsWithGet($query);
+        }
+    }
+}

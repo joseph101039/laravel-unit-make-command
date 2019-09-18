@@ -1,0 +1,1 @@
+Route::put('{{Uri}}', '{{Name}}\Controller@update');

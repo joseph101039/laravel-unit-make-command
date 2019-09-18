@@ -1,0 +1,19 @@
+<?php
+
+namespace {{EntityNamespace}};
+
+use {{EntityDefaultNamespace}}\BaseService;
+use {{EntityNamespace}}\{{RepositoryClass}} as {{UnitName}}Repository;
+
+class {{ServiceClass}} extends BaseService
+{
+    private ${{CamelUnitName}}Repository;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->{{CamelUnitName}}Repository = new {{UnitName}}Repository();
+    }
+
+
+}

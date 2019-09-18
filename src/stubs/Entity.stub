@@ -1,0 +1,28 @@
+<?php
+
+namespace {{EntityNamespace}};
+
+use Illuminate\Database\Eloquent\Model;
+
+class {{EntityClass}} extends Model
+{
+    /**
+        * The table associated with the model.
+        *
+        * @var string
+        */
+    
+    // TODO: change the table name
+    protected $table = '{{PluralSnakeUnitName}}';
+
+    /**
+        * The attributes that are mass assignable.
+        *
+        * @var array
+        */
+    // TODO: fill table columns which can be massively assigned
+    protected $fillable = [
+
+    ];
+
+}

@@ -1,0 +1,54 @@
+<?php
+
+namespace {{ControllerNamespace}};
+
+use {{ControllerDefaultNamespace}}\BaseForm;
+
+/**
+ * @property string $method_name
+ * */
+
+class {{RequestClass}} extends BaseForm
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        // pass the user identity validation
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        $default_rules = [];
+
+        switch($this->method_name)
+        {
+            case "index":
+                $rules = [];
+                break;
+            case "store":
+                $rules = [];
+                break;
+            case "update":
+                $rules = [];
+                break;
+            case "destroy":
+                $rules = [];
+                break;
+            default:
+                $rules = [];
+                break;
+        }
+
+        return array_merge($default_rules, $rules);
+    }
+}

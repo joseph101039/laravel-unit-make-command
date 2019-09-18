@@ -1,0 +1,20 @@
+{
+    "name": "rdm/make-unit-command",
+    "description": "A laravel make command to help project team members easily create project files for a route.",
+    "authors": [
+        {
+            "name": "Joseph Li",
+            "email": "joseph_li@mail.chungyo.net"
+        }
+    ],
+    "require": {
+        "php" : "^7.3",
+        "illuminate/config": "^7.0",
+        "laravel/helpers": "^1.0",
+        "illuminate/routing": "^7.0",
+        "illuminate/console": "^7.0",
+        "illuminate/support": "^7.0"
+    },
+    "minimum-stability": "dev",
+
+}

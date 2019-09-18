@@ -1,0 +1,19 @@
+<?php
+
+namespace {{EntityNamespace}};
+
+use {{EntityDefaultNamespace}}\BaseRepository;
+
+class {{RepositoryClass}} extends BaseRepository
+{
+    private $entity;
+
+    const MODEL = Entity::class;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->entity = new Entity();
+    }
+
+}
