@@ -10,5 +10,10 @@
     "require": {
         "php" : ">=7.1.3"
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "RDM\\MakeUnitCommand\\": "src/"
+        }
+    }
 }
