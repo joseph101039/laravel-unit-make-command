@@ -15,6 +15,5 @@
         "illuminate/console": "^7.0",
         "illuminate/support": "^7.0"
     },
-    "minimum-stability": "dev",
-
+    "minimum-stability": "dev"
 }
