@@ -4,18 +4,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Default Controller Path
+    | Classes Path
     |--------------------------------------------------------------------------
     |
-    | This option determines where all the controller class files will be
+    | 以下三個建立類型 :  'controller', 'entity', 'search'
+    | (1) 'enable': 只有為 true 時才會建立文件
+    | (2) 'subnamespace', 'subfolder', 'classes': 在 app/subnamespace/subfolder 底下建立 classes 指定的文件
+    | 以 search 類型為例，輸入 php artisan make:unit Folder/User 會在
+    | app/Management/Folder/SearchService/User 底下建立 SearchService.php
+    | (3) create_folder: optional, 指定建立額外空資料夾
+    |
+    | This option determines where all the class files will be
     | put for your application. Typically, this is a fixed value within the
     | storage directory. However, as usual, you are free to change this value.
     |
-    | This option determines class name of the class files will be put for your
-    | application under controller_path. You are free to change this value.
-    |
-    | The elements in classes array with replace the token element's key + Class
-    | with the element's value in stub file.
     */
 
     'controller' => [
@@ -31,16 +33,8 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Default Entity Path, Target Class File to be created under Controller Default Path
+    | Entity Path, Target Class File to be created under Entity Path
     |--------------------------------------------------------------------------
-    |
-    | This option determines where all the controller class files will be
-    | put for your application. Typically, this is a fixed value within the
-    | storage directory. However, as usual, you are free to change this value.
-    |
-    | This option determines class name of the class files will be put for your
-    | application under controller_path. You are free to change this value.
-
     */
     'entity' => [
         'enable' => true,
@@ -55,36 +49,45 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Create SearchService
+    | Search Path, Target Class File to be created under Search Path
     |--------------------------------------------------------------------------
-    |
-    | This option determines whether to create SearchService folder under
-    | entity_path. Search class and IFilter folder will be created under SearchService.
-    | You are free to change this value.
-    |
     */
-
 
     'search' => [
         'enable' => true,
         'subnamespace' => 'Management',
         'subfolder' => 'SearchService',
         'classes' => ['search' => 'Search'],
-        'create_folder' => 'Filters',       // create addition folder under subfolder.
+        'create_folder' => 'Filters',
     ],
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | Stub Path
+    |--------------------------------------------------------------------------
+    |
+    | (1) 'path': 指定 stub 文件在專案中位置
+    | (2) 'extension': 指定 stub 文件副檔名，程式撈取檔案名稱為 類型.stub, 如 Search.stub, 或是 Route.post.stub
+    |
+    */
+
+    'stub' => [
+        'path' => resource_path('stubs'),       // all the ClassName.stub are put under resources/stubs/
+        'extension' => '.stub'
+    ],
 
 
 
     /*
     |--------------------------------------------------------------------------
-    | Create resource routes
+    | Resource routes
     |--------------------------------------------------------------------------
     |
-    | This option determines whether to create CRUD resource routes in api.php
-    | You are free to change this value.
-    |
+    | (1) 'enable': 只有為 true 時才會建立路由
+    | (2) 'file': 指定新增路由的文件
+    | (3) method: 指定需要新增的 http method 種類
+    | (4) allow_duplicate: 是否需要避免建立重複 URI 的路由
     */
 
     'route' => [
@@ -97,10 +100,6 @@ return [
 
 
 
-    'stub' => [
-        'path' => resource_path('stubs'),       // all the ClassName.stub are put under resources/stubs/
-        'extension' => '.stub'
-    ],
 
 
 ];
