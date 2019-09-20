@@ -197,12 +197,13 @@ class UnitMakeCommand extends Command
     private function isDuplicateRoute($routes, $url, $method)
     {
         //  URL 中遇到 \{...} 或是 /{...} 換成 /{*}，若是直接用  preg_replace 只會替換最外層，將 \{aa}/{bb} 換成 /{*}
+        // 所以先將 { 轉成 <，} 轉乘 > ，再針對 <...> 替換成 (*)後，進行 URI 比對
         $search_url = $this->replaceBraceContent($url);
         $method = strtoupper($method);
         foreach($routes as $route) {
             if(($search_url === $route['format'])  &&
                 in_array(strtoupper($method), $route['methods'])) {
-                $this->error("{$method} - {$url} 路由已經存在，略過建立。");
+                $this->error("{$method} - {$url} 路由已經存在 (與 {$route['uri']} 重複)，略過建立。");
                 return true;
             }
         }
@@ -244,7 +245,6 @@ class UnitMakeCommand extends Command
         return collect($routes)->map(function($item) {
             $item =  collect($item);
             $data = $item->only(['uri', 'methods']);
-//            $data->put('controller',  $item['action']['controller'] ?? null);
             $data->put('format',  $this->replaceBraceContent($data['uri']));
             return $data;
         });
