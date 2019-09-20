@@ -79,12 +79,13 @@
   
 ## 2. 使用說明:
 用法類似於 Laravel 內建的 make:controller的指令。  
-打開命令提示視窗，在專案根目錄路徑底下輸入，在專案根目錄底下輸入 **php artisan make:unit User**
+打開命令提示視窗，在專案根目錄路徑底下輸入，在專案根目錄底下輸入 **php artisan make:unit User**  
 
-上述指令會
-(1) 在 *app/Http/Controller/User*底下建立 Controller.php, Transform.php, Form.php
-(2) 在*App/Management/User* 底下建立 Service.php, SearchService.php, Repository.php, Entity.php
-(3) 在 *api.php* 底下新增預設的 resource routes 如下:
+上述指令會  
+(1) 在 *app/Http/Controller/User*底下建立 Controller.php, Transform.php, Form.php  
+(2) 在*App/Management/User* 底下建立 Service.php, SearchService.php, Repository.php, Entity.php  
+(3) 在 *api.php* 底下新增預設的 resource routes 如下:  
+
 <pre>
 // TODO: 檢查 User 建立 Routes URI 是否正確
 Route::get('user', 'User\Controller@index');
@@ -95,4 +96,4 @@ Route::delete('user/{user}', 'User\Controller@destroy');
  
    * 特別注意的是程式會自動檢測 URI 格式重複的 route 不會被建立，例如若是 api.php 中已經有*Route::put('user/{id}, ...)*，為了避免路由覆蓋的問題，*Route::put('user/{user}', 'User\Controller@update')* 將不會被建立。   
 
-此外當然你也可以，輸入 **php artisan make:unit Folder/User** 在 Folder 資料夾底下建立相關文件。
+此外當然你也可以，輸入 **php artisan make:unit Folder/User** 在 Folder 資料夾底下建立相關文件。  
