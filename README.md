@@ -71,29 +71,35 @@
 
 
 ### (5) 複製套件文檔至專案中
-打開命令提示視窗，在專案根目錄路徑底下輸入 **php artisan vendor:public --tag=generator --force**，若是沒有顯示錯誤，表示安裝完成。
+打開命令提示視窗，在專案根目錄路徑底下輸入 **php artisan vendor:publish --tag=generator --force**，將必要檔案複製到專案中，若是沒有顯示錯誤，表示安裝完成。
+不要忘了將這些檔案 git add，push 上 server 讓專案成員可以使用。
   
 
 ------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------
   
 ## 2. 使用說明:
+### (1) 指令
 用法類似於 Laravel 內建的 make:controller的指令。  
-打開命令提示視窗，在專案根目錄路徑底下輸入，在專案根目錄底下輸入 **php artisan make:unit User**  
+打開命令提示視窗，在專案根目錄路徑底下輸入，在專案根目錄底下輸入 **php artisan make:unit Folder/User**  
 
 上述指令會  
-(1) 在 *app/Http/Controller/User*底下建立 Controller.php, Transform.php, Form.php  
-(2) 在*App/Management/User* 底下建立 Service.php, SearchService.php, Repository.php, Entity.php  
+(1) 在 *app/Http/Folder/Controller/User*底下建立 Controller.php, Transform.php, Form.php  
+(2) 在*App/Management/Folder/User* 底下建立 Service.php, SearchService.php, Repository.php, Entity.php  
 (3) 在 *api.php* 底下新增預設的 resource routes 如下:  
 
 <pre>
 // TODO: 檢查 User 建立 Routes URI 是否正確
-Route::get('user', 'User\Controller@index');
-Route::post('user', 'User\Controller@store');
-Route::put('user/{user}', 'User\Controller@update');
-Route::delete('user/{user}', 'User\Controller@destroy');
+Route::get('user', 'Folder\User\Controller@index');
+Route::post('user', 'Folder\User\Controller@store');
+Route::put('user/{user}', 'Folder\User\Controller@update');
+Route::delete('user/{user}', 'Folder\User\Controller@destroy');
 </pre>
  
    * 特別注意的是程式會自動檢測 URI 格式重複的 route 不會被建立，例如若是 api.php 中已經有*Route::put('user/{id}, ...)*，為了避免路由覆蓋的問題，*Route::put('user/{user}', 'User\Controller@update')* 將不會被建立。   
 
-此外當然你也可以，輸入 **php artisan make:unit Folder/User** 在 Folder 資料夾底下建立相關文件。  
+此外當然你也可以，輸入 **php artisan make:unit Folder/User** 在 Folder 資料夾底下建立相關文件。
+
+### (2) 啟用/停用建立檔案
+若是不想自動在 *api.php* 底下新增 resource routes，可以到*config/generator.php* 底下找到**'route'  將 enable 改為 false**。
+同理，你也可以disable controller, entity 或是 search 檔案的建立。
