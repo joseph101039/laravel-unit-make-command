@@ -81,7 +81,7 @@
 ## 2. 使用說明:
 ### (1) 指令
 用法類似於 Laravel 內建的 make:controller的指令。  
-打開命令提示視窗，在專案根目錄路徑底下輸入，在專案根目錄底下輸入 **php artisan make:unit Folder/User**  
+打開命令提示視窗，在專案根目錄路徑底下輸入，在專案根目錄底下輸入 **php artisan make:unit Folder/User** ，表示在 Folder 資料夾底下建立相關文件。
 
 上述指令會  
 (1) 在 *app/Http/Folder/Controller/User*底下建立 Controller.php, Transform.php, Form.php  
@@ -97,8 +97,6 @@ Route::delete('user/{user}', 'Folder\User\Controller@destroy');
 </pre>
  
    * 特別注意的是程式會自動檢測 URI 格式重複的 route 不會被建立，例如若是 api.php 中已經有*Route::put('user/{id}, ...)*，為了避免路由覆蓋的問題，*Route::put('user/{user}', 'User\Controller@update')* 將不會被建立。   
-
-此外當然你也可以，輸入 **php artisan make:unit Folder/User** 在 Folder 資料夾底下建立相關文件。
 
 ### (2) 啟用/停用建立檔案
 若是不想自動在 *api.php* 底下新增 resource routes，可以到*config/generator.php* 底下找到**'route'  將 enable 改為 false**。
