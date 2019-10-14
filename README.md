@@ -101,3 +101,25 @@ Route::delete('user/{user}', 'Folder\User\Controller@destroy');
 ### (2) 啟用/停用建立檔案
 若是不想自動在 *api.php* 底下新增 resource routes，可以到*config/generator.php* 底下找到**'route'  將 enable 改為 false**。
 同理，你也可以disable controller, entity 或是 search 檔案的建立。
+
+
+## 3. 更新步驟:
+### 指令
+1.  composer update  
+2.  在專案根目錄路徑底下輸入 *php artisan vendor:publish --tag=generator --force* 覆蓋舊檔案  
+3.  將所有變更 git push  
+
+------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
+
+## Release Notes
+### v1.1  
+*2019-10-14*  
+Added
++ 在 controller 添加 transformer 以及 Search 類別的宣告  
++ 添加輸入參數字首是否為大寫的檢查，若是小寫會詢問。 
+
+Changed  
++ 修正 command help 描述  
++ 修改 shell 輸出訊息顏色  
+
