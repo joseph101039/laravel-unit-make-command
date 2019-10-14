@@ -3,19 +3,21 @@
 namespace {{ControllerNamespace}};
 
 use {{EntityNamespace}}\{{ServiceClass}} as {{UnitName}}Service;
+use {{ControllerNamespace}}\Transformer as {{UnitName}}Transformer;
+use {{SearchNamespace}}\Search;
 use \Illuminate\Http\Response;
 
 class {{ControllerClass}} extends \App\Http\Controllers\Controller
 {
     private ${{CamelUnitName}}Service;
-
+    private ${{CamelUnitName}}Transformer;
 
 
     public function __construct()
     {
         $this->{{CamelUnitName}}Service = new {{UnitName}}Service();
+        $this->{{CamelUnitName}}Transformer = new {{UnitName}}Transformer();
     }
-
 
     /**
      * Display a listing of the resource.
@@ -48,7 +50,6 @@ class {{ControllerClass}} extends \App\Http\Controllers\Controller
         }
         return $response;
     }
-
 
     /**
      * Update the specified resource in storage.

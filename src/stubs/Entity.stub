@@ -12,7 +12,7 @@ class {{EntityClass}} extends Model
         * @var string
         */
     
-    // TODO: change the table name
+    // TODO: check the table name
     protected $table = '{{PluralSnakeUnitName}}';
 
     /**
@@ -20,7 +20,7 @@ class {{EntityClass}} extends Model
         *
         * @var array
         */
-    // TODO: fill table columns which can be massively assigned
+    // TODO: fill the table columns which is allowed to be massively assigned
     protected $fillable = [
 
     ];

@@ -29,14 +29,14 @@ class UnitMakeCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'make:unit {name} {--overwrite}';
+    protected $signature = 'make:unit {name}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create Controller, Service, Repository and Form class base on the given model name which match the route create in api.php';
+    protected $description = 'Create Controller, Entity, Search related class given a model name.';
 
 
 //    /**
@@ -67,6 +67,14 @@ class UnitMakeCommand extends Command
     public function handle()
     {
         $name = $this->getNameInput();
+        // 檢查 name 參數開頭是否大寫，不是大寫就詢問
+        if(!ctype_upper($this->getUnitName($name)[0])) {
+            $uc_unit_name = ucfirst($this->getUnitName($name));
+           if( $this->confirm("Model 名稱通常以大寫開頭，請問要否要以 {$uc_unit_name} 作為名稱? (yes/no)")) {
+               $name = $this->replaceUnitName($name, $uc_unit_name);
+           }
+
+        }
 
         $this->makeClass(CONTROLLER_TYPE, $name);
         $this->makeClass(ENTITY_TYPE, $name);
@@ -84,8 +92,8 @@ class UnitMakeCommand extends Command
 
         if ($classes = config("generator.{$type}.classes")) {
             foreach ($classes as $class) {
-                if (($namespace = $this->getClassNamespace($type)) &&
-                    $path = $this->getPath($type)) {
+                if (($namespace = $this->getClassNamespace($type, $name)) &&
+                    $path = $this->getPath($type, $name)) {
 
                     $stub = $this->getStub($class);
                     $stub = $this->replaceNamespace($stub, $name)->replaceAdditionalToken($stub)->replaceClass($stub);
@@ -103,7 +111,7 @@ class UnitMakeCommand extends Command
 
                     if (!file_exists($file_path)) {
                         file_put_contents($file_path, $stub);
-                        print("{$file_name} 已成功建立。\n");
+                        $this->info("{$file_name} 已成功建立。\n");
                     } else {
                         $this->error("{$file_name} 檔案已經存在，略過建立。");
                     }
@@ -116,7 +124,7 @@ class UnitMakeCommand extends Command
     public function makeRoute($type, $name)
     {
         if(empty(config("generator.{$type}.enable"))) {
-            print("Routes are not created.\n");
+            $this->info("Routes are not created.\n");
             return;
         }
 
@@ -156,7 +164,7 @@ class UnitMakeCommand extends Command
                     $upper_method = strtoupper($method);
                     $this->error("Error: Create {$upper_method} - {$url} route failed\n");
                 } else {
-                    print("{$method} - {$url} 已經成功建立\n");
+                    $this->info("{$method} - {$url} 已經成功建立\n");
 
                 }
             } else {
@@ -298,9 +306,9 @@ class UnitMakeCommand extends Command
             $this->rootNamespace(CONTROLLER_TYPE),
             $this->rootNamespace(ENTITY_TYPE),
             $this->rootNamespace(SEARCH_TYPE),
-            $this->getClassNamespace(CONTROLLER_TYPE),
-            $this->getClassNamespace(ENTITY_TYPE),
-            $this->getClassNamespace(SEARCH_TYPE),
+            $this->getClassNamespace(CONTROLLER_TYPE, $name),
+            $this->getClassNamespace(ENTITY_TYPE, $name),
+            $this->getClassNamespace(SEARCH_TYPE, $name),
             studly_case($unit_name),
             camel_case($unit_name),
             str_plural(snake_case($unit_name)),
@@ -329,9 +337,9 @@ class UnitMakeCommand extends Command
      * @param  string  $name
      * @return string
      */
-    protected function getPath($type)
+    protected function getPath($type, $name)
     {
-        $name = Str::replaceFirst($this->rootNamespace($type), '', $this->getNameInput());
+        $name = Str::replaceFirst($this->rootNamespace($type), '', $name);
         $subfolder = $this->getSubfolder($type);
         return $this->laravel['path'].'/'.config("generator.{$type}.subnamespace").'/'.str_replace('\\', '/', $name).$subfolder;
     }
@@ -355,7 +363,7 @@ class UnitMakeCommand extends Command
      */
     protected function rootNamespace($type)
     {
-//        print("type: ".$this->laravel->getNamespace() . config("generator.{$type}.subnamespace")."\n");
+//        $this->info("type: ".$this->laravel->getNamespace() . config("generator.{$type}.subnamespace")."\n");
         if($type === CONTROLLER_TYPE || $type === ENTITY_TYPE || $type === SEARCH_TYPE) {
             return $this->laravel->getNamespace() . config("generator.{$type}.subnamespace");
         } else {
@@ -387,10 +395,10 @@ class UnitMakeCommand extends Command
             trim($rootNamespace, '\\'), $type).'\\'.$name;
     }
 
-    protected function getClassNamespace($type)
+    protected function getClassNamespace($type, $name)
     {
         $subfolder  = $this->getSubfolder($type);
-        return $this->qualifyClass($this->getNameInput(), $type).$subfolder;
+        return $this->qualifyClass($name, $type).$subfolder;
     }
 
 
@@ -399,6 +407,16 @@ class UnitMakeCommand extends Command
         $name = str_replace('\\', '/', $name);
         $array = explode('/', $name);
         return trim(array_values(array_slice($array, -1))[0]);
+    }
+
+    protected function replaceUnitName($name, $new_unit_name)
+    {
+        $name = str_replace('\\', '/', $name);
+        $array = explode('/', $name);
+        array_pop($array);
+        $folder = implode('/', $array);
+
+        return $folder.'/'.$new_unit_name;
     }
 
     public function getSubfolder($type)
