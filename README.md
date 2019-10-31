@@ -6,7 +6,7 @@
     
     
 ### (1)修改 composer.json:
-在專案根目錄 composer.json 添加 property **"repositories"**，指定安裝庫，並在 require 中添加 **rdm/make-unit-command: ~1.0** (表示2.0 以前的 1.* 版本的更新都會被安裝)，版本可自由修改，添加內容如下斜線粗體部分:
+在專案根目錄 composer.json 添加 property **"repositories"**，指定安裝庫，並在 require-dev 下添加 **rdm/make-unit-command: ~1.0** (表示2.0 以前的 1.* 版本的更新都會被安裝)，版本可自由修改，添加內容如下斜線粗體部分:
 
 
 
@@ -19,8 +19,8 @@
         "url": "git@34.80.61.76:rdm/unit-make-command.git"  
     }  
 ],</strong></em>  
-"require": {  
-    "php": ">=7.1.3",  
+"require-dev": {  
+    "filp/whoops": "^2.0",  
     ....  
     <em><strong>"rdm/make-unit-command": "~1.0"</strong></em>  
 },
@@ -53,22 +53,20 @@
 ### (3) composer update
 打開命令提示視窗，在專案根目錄路徑底下輸入 composer update 或是 composer install，確認安裝成功後
 
-### (4) 添加 Service Provider
-在專案根目錄 config/app.php 中找到 **providers** 陣列 在陣列中添加 **RDM\MakeUnitCommand\UnitCommandServiceProvider::class**，添加內容如下斜線粗體部分:
+### (4) 註冊 Service Provider
+在專案根目錄下找到 app/Providers/AppServiceProvider.php 中找到 **register()** 函式 在函式中 **宣告只有在本地端 (當APP_ENV = local) 才註冊 UnitCommandServiceProvider**，添加內容如下斜線粗體部分:
 
 <pre>
-'providers' => [  
-
-    /*  
-     * Laravel Framework Service Providers...  
-     */  
-     
-     ...  
-    App\Providers\RouteServiceProvider::class,  
-    <em><strong>RDM\MakeUnitCommand\UnitCommandServiceProvider::class,</strong></em>  
-],
+public function register()  
+{  
+    if($this->app->isLocal()) {  
+        $this->app->register(  
+            <em><strong>\RDM\MakeUnitCommand\UnitCommandServiceProvider::class);</strong></em>  
+    }  
+}
 </pre>
 
+`說明: 只在本地端註冊避免在 google cloud platform 上建置機器時，可能會無法連線到此 私人GitLab函式庫而導致建立過程出錯，同時建置機器時建議以"composer install --no-dev" 安裝，跳過安裝 require-dev 中的開發階段的套件，避免建置失敗。`  
 
 ### (5) 複製套件文檔至專案中
 打開命令提示視窗，在專案根目錄路徑底下輸入 **php artisan vendor:publish --tag=generator --force**，將必要檔案複製到專案中，若是沒有顯示錯誤，表示安裝完成。
@@ -120,6 +118,7 @@ Added
 + 添加輸入參數字首是否為大寫的檢查，若是小寫會詢問。 
 
 Changed  
+
 + 修正 command help 描述  
 + 修改 shell 輸出訊息顏色  
 
