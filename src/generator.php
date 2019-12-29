@@ -86,7 +86,7 @@ return [
     |
     | (1) 'enable': 只有為 true 時才會建立路由
     | (2) 'file': 指定新增路由的文件
-    | (3) method: 指定需要新增的 http method 種類
+    | (3) method: 指定需要新增的 http method 種類, 撈取 Route.{method}.stub 模板
     | (4) allow_duplicate: 是否需要避免建立重複 URI 的路由
     */
 

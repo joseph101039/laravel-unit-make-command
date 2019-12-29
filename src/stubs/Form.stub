@@ -11,22 +11,26 @@ use {{ControllerDefaultNamespace}}\BaseForm;
 class {{RequestClass}} extends BaseForm
 {
     /**
+     * 決定不同函式 (同 rules() 格式) 所需要的權限範圍，範圍參照 $_SESSION['permission'] 中的值，
+     * 請依專案需求自行修改 BaseForm::ruleViolationResponse() 及 BaseForm::can()
      * Determine if the user is authorized to make this request.
-     *
+     * @example $this->can('update', 'project');
+     * @example $this->can([''search', 'create'], 'project');
+     * @example $this->can(function($request){ ...});   // 自定義授權函式
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         // pass the user identity validation
         return true;
     }
 
     /**
-     * Get the validation rules that apply to the request.
-     *
+     * Apply validation rules to the request data.
+     * 可用規則參照 https://laravel.tw/docs/5.2/validation#available-validation-rules
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         $default_rules = [];
 
@@ -50,5 +54,16 @@ class {{RequestClass}} extends BaseForm
         }
 
         return array_merge($default_rules, $rules);
+    }
+
+    /**
+     * 如果你覺得驗證 rules 失敗錯誤訊息的英文 attribute 不好看，可以在這裡替換成中文
+     * 參考 https://laravel.com/docs/5.8/validation#customizing-the-validation-attributes
+     * @return array
+     */
+
+    public function attributes(): array
+    {
+        return [];
     }
 }
