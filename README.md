@@ -73,7 +73,7 @@ public function register()
 不要忘了將這些檔案 git add，push 上 server 讓專案成員可以使用。
   
 
-------------------------------------------------------------------------------------------------------
+
 ------------------------------------------------------------------------------------------------------
   
 ## 2. 使用說明:
@@ -106,11 +106,8 @@ Route::delete('user/{user}', 'Folder\User\Controller@destroy');
 1.  composer update  
 2.  在專案根目錄路徑底下輸入 *php artisan vendor:publish --tag=generator --force* 覆蓋舊檔案  
 3.  將所有變更 git push  
-
-------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------
 
-## Release Notes
 ### v1.1  
 *2019-10-14*  
 Added
@@ -122,3 +119,57 @@ Changed
 + 修正 command help 描述  
 + 修改 shell 輸出訊息顏色  
 
+### v1.1 .1 
+*2019-12-30*  
+Added
++ 添加 Form::attributes() 以讓程式人員可以自定義驗證錯誤訊息中的驗證欄位名稱   
+
+Changed  
+
++ 修正改 Form::authorize() 中範例呼叫的權限函式配合新版 Basic_Project 從 BaseForm::permission(tag, value) 改成 BaseForm::can(value, tag) 以增加程式可讀性  
+  並且  BaseForm::can() 支援 Closure 格式的呼叫
+  
+------------------------------------------------------------------------------------------------------
+## Form 範例程式
+### ***Form.php***
+格式自由填寫
+<pre>
+use App\Rules\PositiveKey;
+
+public function authorize(): bool
+{
+    switch ($this->method_name) {
+        case "index":
+            return $this->can('search', 'permission');
+        case "update":
+            return $this->can(['create', 'update'], 'permission');
+        case "review":
+            return $this->can(function($request) {...});
+    }
+}
+
+public function rules(): array
+{
+    switch ($this->method_name) {
+         case "store":
+                $rules = [
+                    "name"              =>  'required|string|min:1|max:45|unique:roles,name,NULL,id,deleted_at,NULL,portal,'.portal(),
+                    "permission"        =>  ['present','array', new PositiveKey]
+                ]
+    }
+    
+    return $rules;
+}
+
+public fuction attributes(): array
+{
+    $all = ['name' => '帳號名稱'];
+    switch ($this->method_name) {
+         case "store":
+            $alias = ['permission' => '權限值'];
+    }
+    
+    return array_merge($all, $alias);
+}
+    
+</pre>
