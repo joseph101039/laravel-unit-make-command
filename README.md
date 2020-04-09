@@ -104,12 +104,12 @@ Route::delete('user/{user}', 'Folder\User\Controller@destroy');
 
 ## 3. 更新步驟:
 ### 指令
-1.  composer update  
+1.  composer update rdm/make-unit-command
 2.  在專案根目錄路徑底下輸入 *php artisan vendor:publish --tag=generator --force* 覆蓋舊檔案  
 3.  將所有變更 git push  
 ------------------------------------------------------------------------------------------------------
 
-### v1.1  
+### v1.1.0  
 *2019-10-14*  
 Added
 + 在 controller 添加 transformer 以及 Search 類別的宣告  
