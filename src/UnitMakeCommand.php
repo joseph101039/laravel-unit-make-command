@@ -98,6 +98,7 @@ class UnitMakeCommand extends Command
                     $stub = $this->getStub($class);
                     $stub = $this->replaceNamespace($stub, $name)->replaceAdditionalToken($stub)->replaceClass($stub);
 
+                    $path = $this->backSlashTransform($path);
                     if (!file_exists($path)) {
                         mkdir($path, 0777, true);
                     }
@@ -108,7 +109,7 @@ class UnitMakeCommand extends Command
 
                     $file_path = $path.'\\'.$class.".php";
                     $file_name = $namespace.'\\'.$class.'.php';
-
+                    list($file_path, $file_name) = $this->backSlashTransform([$file_path, $file_name]);
                     if (!file_exists($file_path)) {
                         file_put_contents($file_path, $stub);
                         $this->info("{$file_name} 已成功建立。\n");
@@ -432,10 +433,24 @@ class UnitMakeCommand extends Command
         $folder = config("generator.{$type}.create_folder");
         if(!empty($folder = trim($folder, '\\/'))) {
             $path .= '/'.$folder;
+            $path = $this->backSlashTransform($path);
             if (!file_exists($path)) {
                 return mkdir($path, 0777, true);
             }
         }
         return true;
+    }
+
+    private function backSlashTransform($paths)
+    {
+        if(is_array($paths)) {
+            return array_map(function($path) {
+                return  str_replace('\\', '/', $path);
+            }, $paths);
+        } else if(is_string($paths)) {
+            return $paths = str_replace('\\', '/', $paths);
+        }
+
+        throw new \Exception("Exception: {$paths} is neither string nor array type");
     }
  }
