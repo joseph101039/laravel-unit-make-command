@@ -120,7 +120,7 @@ Changed
 + 修正 command help 描述  
 + 修改 shell 輸出訊息顏色  
 
-### v1.1 .1 
+### v1.1.1 
 *2019-12-30*  
 Added
 + 添加 Form::attributes() 以讓程式人員可以自定義驗證錯誤訊息中的驗證欄位名稱   
@@ -130,6 +130,12 @@ Changed
 + 修正改 Form::authorize() 中範例呼叫的權限函式配合新版 Basic_Project 從 BaseForm::permission(tag, value) 改成 BaseForm::can(value, tag) 以增加程式可讀性  
   並且  BaseForm::can() 支援 Closure 格式的呼叫
   
+### v1.1.2 
+*2020-04-09*  
+Changed  
+
++ 修正 MAC / Linux 環境下不支援 backslash 路徑導致的創建檔案問題 
+
 ------------------------------------------------------------------------------------------------------
 ## Form 範例程式
 ### ***Form.php***
