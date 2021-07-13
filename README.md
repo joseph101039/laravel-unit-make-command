@@ -62,7 +62,7 @@ public function register()
 {  
     if($this->app->isLocal()) {  
         $this->app->register(  
-            <em><strong>\RDM\MakeUnitCommand\UnitCommandServiceProvider::class);</strong></em>  
+            \RDM\MakeUnitCommand\UnitCommandServiceProvider::class); 
     }  
 }
 ```
