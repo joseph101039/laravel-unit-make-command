@@ -57,15 +57,15 @@
 ### (4) 註冊 Service Provider
 在專案根目錄下找到 app/Providers/AppServiceProvider.php 中找到 **register()** 函式 在函式中 **宣告只有在本地端 (當APP_ENV = local) 才註冊 UnitCommandServiceProvider**，添加內容如下斜線粗體部分:
 
-<pre>
+```php
 public function register()  
 {  
     if($this->app->isLocal()) {  
         $this->app->register(  
-            <em><strong>\RDM\MakeUnitCommand\UnitCommandServiceProvider::class);</strong></em>  
+            \RDM\MakeUnitCommand\UnitCommandServiceProvider::class); 
     }  
 }
-</pre>
+```
 
 `說明: 只在本地端註冊避免在 google cloud platform 上建置機器時，可能會無法連線到此 私人GitLab函式庫而導致建立過程出錯，同時建置機器時建議以"composer install --no-dev" 安裝，跳過安裝 require-dev 中的開發階段的套件，避免建置失敗。`  
 
@@ -87,13 +87,13 @@ public function register()
 (2) 在*App/Management/Folder/User* 底下建立 Service.php, SearchService.php, Repository.php, Entity.php  
 (3) 在 *api.php* 底下新增預設的 resource routes 如下:  
 
-<pre>
+```php
 // TODO: 檢查 User 建立 Routes URI 是否正確
 Route::get('user', 'Folder\User\Controller@index');
 Route::post('user', 'Folder\User\Controller@store');
 Route::put('user/{user}', 'Folder\User\Controller@update');
 Route::delete('user/{user}', 'Folder\User\Controller@destroy');
-</pre>
+```
  
    * 特別注意的是程式會自動檢測 URI 格式重複的 route 不會被建立，例如若是 api.php 中已經有*Route::put('user/{id}, ...)*，為了避免路由覆蓋的問題，*Route::put('user/{user}', 'User\Controller@update')* 將不會被建立。   
 
@@ -140,7 +140,8 @@ Changed
 ## Form 範例程式
 ### ***Form.php***
 格式自由填寫
-<pre>
+```php
+<?php
 use App\Rules\PositiveKey;
 
 public function authorize(): bool
@@ -178,5 +179,5 @@ public fuction attributes(): array
     
     return array_merge($all, $alias);
 }
-    
-</pre>
+?>
+```
