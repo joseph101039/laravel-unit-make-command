@@ -107,8 +107,8 @@ class UnitMakeCommand extends Command
                         $this->error("在 {$path} 下建立子資料夾失敗");
                     }
 
-                    $file_path = $path.'\\'.$class.".php";
-                    $file_name = $namespace.'\\'.$class.'.php';
+                    $file_path = $path . DIRECTORY_SEPARATOR . $class.".php";
+                    $file_name = $namespace . DIRECTORY_SEPARATOR . $class.'.php';
                     list($file_path, $file_name) = $this->backSlashTransform([$file_path, $file_name]);
                     if (!file_exists($file_path)) {
                         file_put_contents($file_path, $stub);

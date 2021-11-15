@@ -16,13 +16,11 @@ class {{EntityClass}} extends Model
     protected $table = '{{PluralSnakeUnitName}}';
 
     /**
-        * The attributes that are mass assignable.
+        * The attributes that aren't mass assignable.
         *
         * @var array
         */
-    // TODO: fill the table columns which is allowed to be massively assigned
-    protected $fillable = [
-
-    ];
+    // TODO: fill the table columns which are not allowed to be massively assigned
+    protected $guarded = ['id'];
 
 }
