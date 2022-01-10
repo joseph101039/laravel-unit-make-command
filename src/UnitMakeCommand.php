@@ -223,7 +223,7 @@ class UnitMakeCommand extends Command
     private function generateUri($name, $method)
     {
         $unit_name = $this->getUnitName($name);
-        $uri = str_singular(snake_case($unit_name));
+        $uri = Str::singular(Str::snake($unit_name));
 
         switch(strtoupper($method))
         {
@@ -283,7 +283,7 @@ class UnitMakeCommand extends Command
     {
         $all_classes = array_merge(config("generator.".CONTROLLER_TYPE.".classes"), config("generator.".ENTITY_TYPE.".classes"), config("generator.".SEARCH_TYPE.".classes"));
         foreach ($all_classes as $alias => $class) {
-            $stub = str_replace('{{' . studly_case($alias) . 'Class}}', $class, $stub);
+            $stub = str_replace('{{' . Str::studly($alias) . 'Class}}', $class, $stub);
         }
         return $stub;
     }
@@ -310,9 +310,9 @@ class UnitMakeCommand extends Command
             $this->getClassNamespace(CONTROLLER_TYPE, $name),
             $this->getClassNamespace(ENTITY_TYPE, $name),
             $this->getClassNamespace(SEARCH_TYPE, $name),
-            studly_case($unit_name),
-            camel_case($unit_name),
-            str_plural(snake_case($unit_name)),
+            Str::studly($unit_name),
+            Str::camel($unit_name),
+            Str::plural(Str::snake($unit_name)),
         ];
         $stub = str_replace($search, $replace, $stub);
         return $this;
