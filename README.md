@@ -1,5 +1,12 @@
 # Unit Make Command
 
+## 用法
+
+```bash
+php artisan make:unit User   // 範例1
+php artisan make:unit Users/Admin  // 範例2
+```
+
 ## Introduction
 <p>A laravel unit make command which may help project team member quickly create the necessary files for a resource route.</p>
 
