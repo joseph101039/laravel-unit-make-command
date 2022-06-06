@@ -8,12 +8,14 @@ php artisan make:unit Users/Admin  // 範例2
 ```
 
 ## Introduction
+
 <p>A laravel unit make command which may help project team member quickly create the necessary files for a resource route.</p>
 
 ## 1. 安裝步驟
     
     
 ### (1)修改 composer.json:
+
 在專案根目錄 composer.json 添加 property **"repositories"**，指定安裝庫，並在 require-dev 下添加 **rdm/make-unit-command: ~1.0** (表示2.0 以前的 1.* 版本的更新都會被安裝)，版本可自由修改，添加內容如下斜線粗體部分:
 
 
@@ -38,6 +40,7 @@ php artisan make:unit Users/Admin  // 範例2
 
 
 ### (2)同樣修改 composer.json:
+
 在專案根目錄 composer.json 的 property **"config"** 中添加 **gitlab-domains** 指定安裝庫網域，以及 **gitlab-token** 屬性，指定存取該網域的access token，token 屬性為 gitlab user profile 底下的 personal_access_tokens，應更換為 guest user 的permission token，避免安全性問題，添加內容如下斜線粗體部分:
 
 
@@ -58,10 +61,12 @@ php artisan make:unit Users/Admin  // 範例2
 </pre>
 
 
-### (3) composer update
-打開命令提示視窗，在專案根目錄路徑底下輸入 composer update 或是 composer install，確認安裝成功後
+### (3) 安裝
+
+打開命令提示視窗，在專案根目錄路徑底下輸入 `composer require rdm/make-unit-command --dev` 確認安裝成功後
 
 ### (4) 註冊 Service Provider
+
 在專案根目錄下找到 app/Providers/AppServiceProvider.php 中找到 **register()** 函式 在函式中 **宣告只有在本地端 (當APP_ENV = local) 才註冊 UnitCommandServiceProvider**，添加內容如下斜線粗體部分:
 
 ```php
@@ -77,6 +82,7 @@ public function register()
 `說明: 只在本地端註冊避免在 google cloud platform 上建置機器時，可能會無法連線到此 私人GitLab函式庫而導致建立過程出錯，同時建置機器時建議以"composer install --no-dev" 安裝，跳過安裝 require-dev 中的開發階段的套件，避免建置失敗。`  
 
 ### (5) 複製套件文檔至專案中
+
 打開命令提示視窗，在專案根目錄路徑底下輸入 **php artisan vendor:publish --tag=generator --force**，將必要檔案複製到專案中，若是沒有顯示錯誤，表示安裝完成。
 不要忘了將這些檔案 git add，push 上 server 讓專案成員可以使用。
   
@@ -85,7 +91,9 @@ public function register()
 ------------------------------------------------------------------------------------------------------
   
 ## 2. 使用說明:
+
 ### (1) 指令
+
 用法類似於 Laravel 內建的 make:controller的指令。  
 打開命令提示視窗，在專案根目錄路徑底下輸入，在專案根目錄底下輸入 **php artisan make:unit Folder/User** ，表示在 Folder 資料夾底下建立相關文件。
 
@@ -105,12 +113,15 @@ Route::delete('user/{user}', 'Folder\User\Controller@destroy');
    * 特別注意的是程式會自動檢測 URI 格式重複的 route 不會被建立，例如若是 api.php 中已經有*Route::put('user/{id}, ...)*，為了避免路由覆蓋的問題，*Route::put('user/{user}', 'User\Controller@update')* 將不會被建立。   
 
 ### (2) 啟用/停用建立檔案
+
 若是不想自動在 *api.php* 底下新增 resource routes，可以到*config/generator.php* 底下找到**'route'  將 enable 改為 false**。
 同理，你也可以disable controller, entity 或是 search 檔案的建立。
 
 
 ## 3. 更新步驟:
+
 ### 指令
+
 1.  composer update rdm/make-unit-command
 2.  在專案根目錄路徑底下輸入 *php artisan vendor:publish --tag=generator --force* 覆蓋舊檔案  
 3.  將所有變更 git push  
@@ -128,6 +139,7 @@ Changed
 + 修改 shell 輸出訊息顏色  
 
 ### v1.1.1 
+
 *2019-12-30*  
 Added
 + 添加 Form::attributes() 以讓程式人員可以自定義驗證錯誤訊息中的驗證欄位名稱   
@@ -138,6 +150,7 @@ Changed
   並且  BaseForm::can() 支援 Closure 格式的呼叫
   
 ### v1.1.2 
+
 *2020-04-09*  
 Changed  
 
@@ -145,6 +158,7 @@ Changed
 
 
 ### v1.1.5
+
 *2022-01-10*  
 Changed  
 
