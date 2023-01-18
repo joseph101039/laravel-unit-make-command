@@ -1,10 +1,12 @@
 {
     "name": "trd-rdm/make-unit-command",
     "description": "A laravel make command to help project team members easily create project files for a route.",
+    "type": "package",
+    "license": "MIT",
     "authors": [
         {
             "name": "Joseph Li",
-            "email": "joseph_li@mail.chungyo.net"
+            "email": "joseph101039@gmail.com"
         }
     ],
     "require": {
