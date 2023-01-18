@@ -13,59 +13,11 @@ php artisan make:unit Users/Admin  // 範例2
 
 ## 1. 安裝步驟
     
-    
-### (1)修改 composer.json:
-
-在專案根目錄 composer.json 添加 property **"repositories"**，指定安裝庫，並在 require-dev 下添加 **rdm/make-unit-command: ~1.0** (表示2.0 以前的 1.* 版本的更新都會被安裝)，版本可自由修改，添加內容如下斜線粗體部分:
-
-
-
-<pre>
-"license": "MIT",   
-"type": "project",  
-<em><strong>"repositories": [  
-{  
-        "type": "vcs",  
-        "url": "git@34.80.61.76:rdm/unit-make-command.git"  
-    }  
-],</strong></em>  
-"require-dev": {  
-    "filp/whoops": "^2.0",  
-    ....  
-    <em><strong>"rdm/make-unit-command": "~1.0"</strong></em>  
-},
-</span>
-</pre>
-
-
-
-### (2)同樣修改 composer.json:
-
-在專案根目錄 composer.json 的 property **"config"** 中添加 **gitlab-domains** 指定安裝庫網域，以及 **gitlab-token** 屬性，指定存取該網域的access token，token 屬性為 gitlab user profile 底下的 personal_access_tokens，應更換為 guest user 的permission token，避免安全性問題，添加內容如下斜線粗體部分:
-
-
-<pre>
-"config": {  
-    "preferred-install": "dist",  
-    "sort-packages": true,  
-    "optimize-autoloader": true,  
-    <em><strong>
-    "gitlab-domains": [  
-        "34.80.61.76:8085"  
-    ],  
-    "gitlab-token": {  
-        "34.80.61.76:8085": "saRpbZGoTaMqHzu5fi5_"  
-    }  
-</strong></em>
-}  
-</pre>
-
-
-### (3) 安裝
+### (1) 安裝
 
 打開命令提示視窗，在專案根目錄路徑底下輸入 `composer require rdm/make-unit-command --dev` 確認安裝成功後
 
-### (4) 註冊 Service Provider
+### (2) 註冊 Service Provider
 
 在專案根目錄下找到 app/Providers/AppServiceProvider.php 中找到 **register()** 函式 在函式中 **宣告只有在本地端 (當APP_ENV = local) 才註冊 UnitCommandServiceProvider**，添加內容如下斜線粗體部分:
 
@@ -81,7 +33,7 @@ public function register()
 
 `說明: 只在本地端註冊避免在 google cloud platform 上建置機器時，可能會無法連線到此 私人GitLab函式庫而導致建立過程出錯，同時建置機器時建議以"composer install --no-dev" 安裝，跳過安裝 require-dev 中的開發階段的套件，避免建置失敗。`  
 
-### (5) 複製套件文檔至專案中
+### (3) 複製套件文檔至專案中
 
 打開命令提示視窗，在專案根目錄路徑底下輸入 **php artisan vendor:publish --tag=generator --force**，將必要檔案複製到專案中，若是沒有顯示錯誤，表示安裝完成。
 不要忘了將這些檔案 git add，push 上 server 讓專案成員可以使用。
