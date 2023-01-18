@@ -15,7 +15,7 @@ php artisan make:unit Users/Admin  // 範例2
     
 ### (1) 安裝
 
-打開命令提示視窗，在專案根目錄路徑底下輸入 `composer require rdm/make-unit-command --dev` 確認安裝成功後
+打開命令提示視窗，在專案根目錄路徑底下輸入 `composer require trd-rdm/make-unit-command --dev` 確認安裝成功後
 
 ### (2) 註冊 Service Provider
 

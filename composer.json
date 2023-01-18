@@ -1,5 +1,5 @@
 {
-    "name": "rdm/make-unit-command",
+    "name": "trd-rdm/make-unit-command",
     "description": "A laravel make command to help project team members easily create project files for a route.",
     "authors": [
         {
